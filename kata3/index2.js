@@ -65,13 +65,89 @@ class Mano {
     }
 }
 
+class Pair {
+    constructor(pairj) {
+        this._pairj = pairj;
+    }
+
+    calcPair() {
+        let val = 0;
+        // console.log(this._trioj);
+        const repes = (this._pairj).reduce((contador, valor) => {
+            contador[valor] = (contador[valor] || 0) + 1;
+            return contador;
+        }, {});
+
+
+        // console.log(Object.values(repes));
+        let arrayAux = Object.values(repes);
+        // console.log(arrayAux.indexOf(2));
+
+        // console.log(repes);
+
+        if (arrayAux.indexOf(2) != -1) {
+            //   console.log(Object.values(repes)[]);
+            //   console.log(Object.keys(repes)[arrayAux.indexOf(2)]);
+            val = Object.keys(repes)[arrayAux.indexOf(2)];
+        }
+        return val;
+    }
+}
+
+class Twopairs {
+    constructor(tpairj) {
+        this._tpairj = tpairj;
+    }
+
+    calcTpair() {
+        let val = 0;
+        let valAux = 0;
+        let count = 0;
+        // console.log(this._trioj);
+        const repes = (this._tpairj).reduce((contador, valor) => {
+            contador[valor] = (contador[valor] || 0) + 1;
+            return contador;
+        }, {});
+
+
+        // console.log(Object.values(repes));
+        let arrayAux = Object.values(repes);
+        // console.log(arrayAux.indexOf(2));
+
+        // console.log(repes);
+
+        // console.log(arrayAux);
+
+        if (arrayAux.indexOf(2) != -1) {
+            for (i = 0; i < arrayAux.length; i++) {
+                if (arrayAux[i] == 2) {
+                    // console.log(arrayAux[i]);
+                    count++;
+                    valAux = Object.keys(repes)[arrayAux[i]];
+                    // console.log("Valor de valAux: "+valAux);
+                }
+            }
+            if (count > 1) {
+                val = valAux;
+            }
+            //   console.log(Object.values(repes)[]);
+            //   console.log(Object.keys(repes)[arrayAux.indexOf(2)]);
+
+        }
+        // console.log("Este es el valor de val: "+val);
+        return val;
+
+    }
+}
+
+
 class Trio {
     constructor(trioj) {
         this._trioj = trioj;
     }
 
     calcTrio() {
-        let val=0;
+        let val = 0;
         // console.log(this._trioj);
         const repes = (this._trioj).reduce((contador, valor) => {
             contador[valor] = (contador[valor] || 0) + 1;
@@ -86,10 +162,36 @@ class Trio {
         // console.log(repes);
 
         if (arrayAux.indexOf(3) != -1) {
-            let ind = arrayAux.indexOf(3);
             //   console.log(Object.values(repes)[ind]);
             //   console.log(Object.keys(repes)[arrayAux.indexOf(3)]);
             val = Object.keys(repes)[arrayAux.indexOf(3)];
+        }
+        return val;
+    }
+}
+
+class Straight {
+    constructor(strj) {
+        this._strj = strj;
+    }
+
+    calcStraight() {
+        let val = 0;
+
+        const repes = (this._strj).reduce((contador, valor) => {
+            contador[valor] = (contador[valor] || 0) + 1;
+            return contador;
+        }, {});
+
+        let arrayAux = Object.values(repes);
+
+        
+        if (arrayAux.length == this._strj.length) {
+            for (i = 0; i < this._strj.length; i++) {
+                if (j < this._strj.length - 1 && (this._strj[j] + 1) == this._strj[j + 1]) {
+                    val = Object.keys(repes)[arrayAux[i]];
+                }
+            }
         }
         return val;
     }
@@ -139,8 +241,8 @@ for (i = 0; i < 5; i++) {
 
 let jugador2 = new Array();
 // jugador2 = mano2.calcMano();
-jugador2 = ['2H', '2S', '2C', '7H', '7S'];
-jugador1 = ['3C', '3H', '3S', 'TC', 'TH'];
+jugador1 = ['7H', '8S', '9C', 'TH', 'JS'];
+jugador2 = ['3C', '4H', '5S', '6C', '7H'];
 
 
 // res=getRandomInt(1,52);
@@ -189,91 +291,63 @@ function highCard(jugador1, jugador2) {
 // highCard(jugador1, jugador2);
 
 function pair(jugador1, jugador2) {
-    let count = 1;
-    let countp1 = 0;
-    let countp2 = 0;
-    let val1 = 0;
-    let val2 = 0;
+    let j1 = new Array();
+    let j2 = new Array();
+    // let val1 = 0;
+    // let val2 = 0;
     for (i = 0; i < jugador1.length; i++) {
-        if (i < jugador1.length - 1 && count < 2 && sacavalor(jugador1[i]) == sacavalor(jugador1[i + 1])) {
-            count++;
-            val1 = sacavalor(jugador1[i]);
-            countp1++;
-        } else if (i < jugador1.length - 1 && sacavalor(jugador1[i]) == sacavalor(jugador1[i + 1])) {
-            count++;
-            val1 = 0;
-        } else {
-            count = 1;
-        }
+        j1[i] = sacavalor(jugador1[i]);
+        j2[i] = sacavalor(jugador2[i]);
     }
-    count = 1;
-    for (i = 0; i < jugador2.length; i++) {
-        if (i < jugador2.length - 1 && count < 2 && sacavalor(jugador2[i]) == sacavalor(jugador2[i + 1])) {
-            count++;
-            val2 = sacavalor(jugador2[i]);
-            countp2++;
-        } else if (i < jugador2.length - 1 && sacavalor(jugador2[i]) == sacavalor(jugador2[i + 1])) {
-            count++;
-            val2 = 0;
-        } else {
-            count = 1;
-        }
-    }
-    if (countp1 > 1 || countp2 > 1) {
-        console.log("Hay más de una pareja en la mano");
-    }
+
+    let pairj1 = new Pair(j1);
+    let pairj2 = new Pair(j2);
+    // console.log(j1);
+    // console.log(j2);
+
+    let val1 = pairj1.calcPair();
+    let val2 = pairj2.calcPair();
+
     if (val1 > val2) {
         console.log("Pareja - Gana Jugador 1");
-        pareja = 1;
     } else if (val1 < val2) {
         console.log("Pareja - Gana Jugador 2");
-        pareja = 2;
-    } else {
+    } else if (val1 == val2) {
         highCard(jugador1, jugador2);
+    } else {
+        console.log("No hay Pareja");
     }
-    return pareja;
 }
-
 
 // pair(jugador1, jugador2);
 
-function twoPairs(jugador1, jugador2) {
-    let count = 1;
-    let val11 = 0;
-    let val21 = 0;
-    let val22 = 0;
-    let val12 = 0;
-    for (i = 0; i < jugador1.length; i++) {
-        if (i < jugador1.length - 1 && sacavalor(jugador1[i]) == sacavalor(jugador1[i + 1])) {
-            count++;
-            if (count < 3) {
-                val11 = sacavalor(jugador1[i]);
-            } else {
-                val12 = sacavalor(jugador1[i]);
-            }
 
-        }
+function twoPairs(jugador1, jugador2) {
+    let j1 = new Array();
+    let j2 = new Array();
+    // let val1 = 0;
+    // let val2 = 0;
+    for (i = 0; i < jugador1.length; i++) {
+        j1[i] = sacavalor(jugador1[i]);
+        j2[i] = sacavalor(jugador2[i]);
     }
-    count = 1;
-    for (i = 0; i < jugador2.length; i++) {
-        if (i < jugador2.length - 1 && sacavalor(jugador2[i]) == sacavalor(jugador2[i + 1])) {
-            count++;
-            if (count < 3) {
-                val21 = sacavalor(jugador1[i]);
-            } else {
-                val22 = sacavalor(jugador1[i]);
-            }
-        }
-    }
-    // console.log(val12 + " " + val22);
-    if (val12 == 0 && val22 == 0) {
-        pair(jugador1, jugador2);
-    } else if (val12 > val22) {
+
+    let pairj1 = new Twopairs(j1);
+    let pairj2 = new Twopairs(j2);
+    // console.log(j1);
+    // console.log(j2);
+
+    let val1 = pairj1.calcTpair();
+    let val2 = pairj2.calcTpair();
+
+    if (val1 > val2) {
         console.log("Doble Pareja - Gana Jugador 1");
-    } else if (val12 < val22) {
+    } else if (val1 < val2) {
         console.log("Doble Pareja - Gana Jugador 2");
-    } else {
+    } else if (val1 == val2) {
         highCard(jugador1, jugador2);
+    } else {
+        console.log("No hay Doble Pareja");
     }
 }
 
@@ -307,38 +381,40 @@ function trio(jugador1, jugador2) {
 
 }
 
-trio(jugador1, jugador2);
+// trio(jugador1, jugador2);
 
 function straight(jugador1, jugador2) {
-    let count1 = 1;
-    let count2 = 1;
-    let val1 = 0;
-    let val2 = 0;
+    let j1 = new Array();
+    let j2 = new Array();
+    // let val1 = 0;
+    // let val2 = 0;
     for (i = 0; i < jugador1.length; i++) {
-        if (i < jugador1.length - 1 && count1 < 6 && (sacavalor(jugador1[i]) + 1) == sacavalor(jugador1[i + 1])) {
-            count1++;
-            // val1 = sacavalor(jugador1[i]);
-        }
+        j1[i] = sacavalor(jugador1[i]);
+        j2[i] = sacavalor(jugador2[i]);
     }
-    count = 1;
-    for (i = 0; i < jugador2.length; i++) {
-        if (i < jugador2.length - 1 && count2 < 6 && (sacavalor(jugador2[i]) + 1) == sacavalor(jugador2[i + 1])) {
-            count2++;
-            // val2 = sacavalor(jugador2[i]);
-        }
-    }
-    if (count1 == 5 && count2 == 5) {
+
+    let pairj1 = new Straight(j1);
+    let pairj2 = new Straight(j2);
+    // console.log(j1);
+    // console.log(j2);
+
+    let val1 = pairj1.calcStraight();
+    let val2 = pairj2.calcStraight();
+
+    if (val1 == val2) {
         highCard(jugador1, jugador2);
-    } else if (count1 == 5) {
+    } else if (val1 == 5) {
         console.log("Escalera - Gana Jugador 1");
-    } else if (count2 == 5) {
+    } else if (val2 == 5) {
         console.log("Escalera - Gana Jugador 2");
     } else {
         console.log("No hay Escalera");
     }
+
+
 }
 
-// straight(jugador1, jugador2);
+straight(jugador1, jugador2);
 
 function flush(jugador1, jugador2) {
     let count1 = 1;
